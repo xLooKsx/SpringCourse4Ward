@@ -1,5 +1,5 @@
 
-package br.com.fiveward.dogg.data.builder;
+package br.com.fiveward.xlooksx.data.builder;
 
 import java.time.LocalDate;
 

@@ -14,7 +14,7 @@ public class ToDocumentCanonicalConverter {
 		final String value = targetIsNull ? null : target.getValue();
 
 		final boolean isTypeNull = targetIsNull || target.getType() == null;
-		final DocumentType type = isTypeNull ? null : DocumentType.fromString(target.getValue());
+		final DocumentType type = isTypeNull ? null : DocumentType.fromString(target.getType());
 
 		return DocumentCanonicalBuilder //
 		        .create() //		        

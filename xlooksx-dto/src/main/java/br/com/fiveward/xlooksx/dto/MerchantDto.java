@@ -2,6 +2,8 @@ package br.com.fiveward.xlooksx.dto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -23,6 +25,8 @@ public class MerchantDto implements Serializable {
 	private String legalName;
 	private String socialName;
 	private Boolean allowedToTransact;
+	
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING, locale = "pt-BR", timezone = "Brazil/East")
 	private LocalDate foundation;
 	private DocumentDto document;
 	private Boolean isActive;

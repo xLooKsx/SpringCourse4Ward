@@ -1,5 +1,5 @@
 
-package br.com.fiveward.dogg.converter.todto;
+package br.com.fiveward.xlooksx.converter.todto;
 
 import br.com.fiveward.dogg.dto.builder.DocumentDtoBuilder;
 import br.com.fiveward.xlooksx.DocumentCanonical;

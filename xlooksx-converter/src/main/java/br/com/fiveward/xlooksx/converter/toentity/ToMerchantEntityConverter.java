@@ -1,16 +1,16 @@
 
-package br.com.fiveward.dogg.converter.todto;
+package br.com.fiveward.xlooksx.converter.toentity;
 
 import java.time.LocalDate;
 
-import br.com.fiveward.dogg.dto.builder.MerchantDtoBuilder;
 import br.com.fiveward.xlooksx.MerchantCanonical;
-import br.com.fiveward.xlooksx.dto.DocumentDto;
-import br.com.fiveward.xlooksx.dto.MerchantDto;
+import br.com.fiveward.xlooksx.data.builder.MerchantEntityBuilder;
+import br.com.fiveward.xlooksx.entity.MerchantEntity;
 
-public class ToMerchantDtoConverter {
 
-	public static MerchantDto convert(final MerchantCanonical target) {
+public class ToMerchantEntityConverter {
+
+	public static MerchantEntity convert(final MerchantCanonical target) {
 		final boolean targetIsNull = target == null;
 
 		final Long id = targetIsNull ? null : target.getId();
@@ -21,9 +21,9 @@ public class ToMerchantDtoConverter {
 		final Boolean isActive = targetIsNull ? null : target.getIsActive();
 
 		final boolean isDocumentNull = targetIsNull || target.getDocument() == null;
-		final DocumentDto document = isDocumentNull ? null : ToDocumentDtoConverter.convert(target.getDocument());
+		final String document = isDocumentNull ? null : target.getDocument().getValue();
 
-		return MerchantDtoBuilder //
+		return MerchantEntityBuilder //
 		        .create() //
 		        .setId(id) //
 		        .setLegalName(legalName) //
