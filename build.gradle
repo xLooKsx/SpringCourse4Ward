@@ -1,22 +1,120 @@
-plugins {
-	id 'org.springframework.boot' version '2.1.5.RELEASE'
+buildscript {
+    ext {
+        springBootVersion = '2.1.5.RELEASE'
+        jFrogPluginVersion = '4.4+'
+        sonarQubePluginVersion = '2.6.2'
+    }
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+    }
+    dependencies {
+        classpath("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:${sonarQubePluginVersion}")
+        classpath("org.jfrog.buildinfo:build-info-extractor-gradle:${jFrogPluginVersion}")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+plugins {	
 	id 'java'
+	id 'eclipse'
+	id 'org.sonarqube' version '2.6.2'
 }
 
-apply plugin: 'io.spring.dependency-management'
+jar{
+	baseName = 'xlooksx-solution'
+	version = '0.0.1'
+}
 
 group = 'br.com.fiveward'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+version = '0.0.1'
 
-repositories {
-	mavenCentral()
-}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation project (':xlooksx-microservice')	
+}
+
+allprojects {
+    
+        apply plugin: 'java'
+        apply plugin: 'eclipse'
+        apply plugin: 'maven-publish'
+        apply plugin: 'com.jfrog.artifactory'
+    
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    compileJava {
+        options.fork = true
+        options.incremental = true
+    }
+    
+    repositories {
+        mavenCentral()
+        maven { url "http://central.maven.org/maven2" }
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }    
+    }
+}
+
+subprojects {
+    group = 'xlooksx'
+    version = '0.0.1'
+}
+
+/* Publicação no jfrog */ 
+artifactoryPublish.skip = true // Alterar para 'false' somente quando for publicar o artefato.
+
+def javaProjects() {
+    subprojects.findAll { new File(it.projectDir, 'src').directory }
+}
+
+configure(javaProjects()) {
+    
+		apply plugin: 'java'
+        apply plugin: 'maven-publish'
+    
+    
+    dependencies {
+        testCompile 'junit:junit:4.7'
+    }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+                artifact(file("$rootDir/gradle.properties"))
+            }
+        }
+    }
+}
+
+artifactory {
+    contextUrl = "${artifactory_contextUrl}"   //The base Artifactory URL if not overridden by the publisher/resolver
+    publish {
+        repository {
+            repoKey = 'gradle-dev-local'
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+            maven = true
+        }
+        defaults { 
+            publications('mavenJava')
+            publishArtifacts = true
+            publishPom = true // Publish generated POM files to Artifactory (true by default)           
+        }
+    }
+    resolve {
+        repository {
+            repoKey = 'fourward-virtual-repo'
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+            maven = true
+        }
+    }
 }
