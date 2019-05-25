@@ -1,2 +1,7 @@
 include ':xlooksx-microservice'
+include ':xlooksx-dto'
+include ':xlooksx-data'
+include ':xlooksx-canonical'
+include ':xlooksx-converter'
+
 rootProject.name = 'xlooksx-solution'

@@ -1,0 +1,7 @@
+dependencies {
+	implementation project (':xlooksx-microservice')	
+	implementation project (':xlooksx-dto')	
+	implementation project (':xlooksx-canonical')
+	implementation project (':xlooksx-data')
+	implementation project (':xlooksx-converter')
+}

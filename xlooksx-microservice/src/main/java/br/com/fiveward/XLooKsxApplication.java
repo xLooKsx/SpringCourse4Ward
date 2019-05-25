@@ -1,4 +1,4 @@
-package br.com.fiveward.xLooKsx;
+package br.com.fiveward;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

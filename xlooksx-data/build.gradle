@@ -1,0 +1,4 @@
+dependencies {
+    implementation('org.springframework.data:spring-data-jpa:2.0.8.RELEASE')
+	implementation('org.hibernate:hibernate-entitymanager:5.0.12.Final')
+}
